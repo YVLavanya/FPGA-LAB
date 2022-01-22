@@ -1,0 +1,145 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{multicol}
+\usepackage{amssymb}
+\usepackage[framed]{matlab-prettifier}
+\usepackage{graphicx}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{enumerate}
+\usepackage{circuitikz}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{karnaugh-map}
+\usepackage{tikz}
+\usetikzlibrary{shapes.gates.logic.US}
+\usetikzlibrary{circuits.ee.IEC}
+
+\begin{document}
+\begin{center}
+
+{\huge EE5811 : FPGA LAB}\\
+{\large ASSIGNMENT 1}
+
+\end{center}
+\begin{center}
+    
+Yeleboina Venkata Lavanya 
+\\EE21MTECH11015
+\end{center}
+
+\vspace{15pt}
+\hrule
+\vspace{5pt}
+\section*{Question}
+Convert the following boolean expression into its canonical POS form
+\begin{equation*}
+    F(A,B,C)=(B+\Bar{C}).(\Bar{A}+B)
+\end{equation*}
+
+
+
+
+\section{Solution}
+\subsection{Using boolean laws}
+The given function F has three variables A,B and C.Each OR term in the given expression has one missing variable
+\\From boolean laws,
+
+\begin{equation}
+x\bar{x}=0
+\end{equation}
+\\From (1) The given boolean expression can be written as
+\begin{equation}
+    F(A,B,C)=(B+\Bar{C}+A\bar{A}).(\Bar{A}+B+C\bar{C})
+\end{equation}
+\\We know, from distributive law
+\begin{equation}
+(x+yz)=(x+y)(x+z)
+\end{equation}
+\\Using (3),the expression (2) can be written as
+\begin{equation}
+    F(A,B,C)=(B+\Bar{C}+A).(B+\Bar{C}+\bar{A})(\Bar{A}+B+C)(\Bar{A}+B+\bar{C})
+\end{equation}
+\\Removing redundant terms,we obtain canonical POS form as
+\begin{equation}
+    F(A,B,C)=(A+B+\Bar{C}).(\Bar{A}+B+C)(\Bar{A}+B+\bar{C})
+\end{equation}
+\\Each OR term in (5) has all three variables.Thus, the function is expressed as product of maxterms.Hence it is the canonical POS(product of sums) form of given boolean expression.
+
+
+\begin{equation}
+F=M_{0}M_{4}M_{5}
+\end{equation}
+\subsection{Using truth table}
+The canonical POS form can also be found using truth table.The truth table for given boolean expression is as follows
+\begin{center}
+    
+    
+    \begin{tabular}{ | c | c | c | c | }
+    \hline
+    A & B & C & F(A,B,C) \\ [0.5ex]
+     \hline
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 1 \\
+    0 & 1 & 1 & 1 \\
+    1 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 0 \\
+    1 & 1 & 0 & 1 \\
+    1 & 1 & 1 & 1 \\ [1ex]
+    \hline
+    \end{tabular}
+    
+\end{center}
+From truth table,
+\begin{equation}
+  F=m_{0}+m_{2}+m_{3}+m_{6}+m_{7} 
+  \end{equation}
+\begin{equation}
+  F=M_{1}M_{4}M_{5}
+\end{equation}
+From (8),The canonical POS form of given expression is
+\begin{equation*}
+  F=(A+B+\bar{C})(\bar{A}+B+C)(\bar{A}+B+\bar{C})
+\end{equation*}
+\section{Verification using KMAP Implementation}
+The obtained canonical POS expression can be minimized using KMap as shown in Figure. 
+\begin{figure}[h!]
+    \centering
+    \begin{karnaugh-map}[4][2][1][][]
+        
+        \minterms{0,2,3,6,7}
+        \maxterms{1,4,5}
+        \implicant{4}{5}
+        \implicant{1}{5}
+        \draw[color=black, ultra thin] (0, 2) --
+        node [pos=0.7, above right, anchor=south west] {$BC$} % Y label
+        node [pos=0.7, below left, anchor=north east] {$A$} % X label
+        ++(135:1);
+        
+    \end{karnaugh-map}
+   
+    \label{fig:kmap}
+\end{figure}
+
+Using implicants in K-Map,the minimized POS expression is
+\begin{equation*}
+    F(A,B,C)=(B+\Bar{C}).(\Bar{A}+B)
+\end{equation*}
+
+
+
+\end{document}
+© 2022 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
